@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PACketMan browser tests</title>
+    <link rel="stylesheet" href="../style.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="panel" aria-labelledby="test-title">
+        <p class="eyebrow">Dependency-free test runner</p>
+        <h1 id="test-title">PACketMan checks</h1>
+        <p id="test-status" role="status" aria-live="polite">Loading test cases…</p>
+        <dl class="test-totals">
+          <div><dt>Discovered</dt><dd id="discovered">0</dd></div>
+          <div><dt>Executed</dt><dd id="executed">0</dd></div>
+          <div><dt>Passed</dt><dd id="passed">0</dd></div>
+          <div><dt>Failed</dt><dd id="failed">0</dd></div>
+        </dl>
+        <h2>Failed case IDs</h2>
+        <ul id="failures"></ul>
+        <h2>Case results</h2>
+        <ul id="results"></ul>
+      </section>
+    </main>
+    <script type="module">
+      import { createContentCases } from "./content.test.js";
+      import { createRulesCases } from "./rules.test.js";
+      import { createStateCases } from "./state.test.js";
+
+      const status = document.querySelector("#test-status");
+      try {
+        const response = await fetch("../data/levels.json");
+        if (!response.ok) throw new Error(`Level data returned HTTP ${response.status}`);
+        const content = await response.json();
+        const cases = [
+          ...createContentCases(content),
+          ...createRulesCases(content),
+          ...createStateCases(content),
+        ];
+        let passed = 0;
+        let failed = 0;
+        const failures = [];
+        for (const testCase of cases) {
+          try {
+            await testCase.run();
+            passed += 1;
+            document.querySelector("#results").insertAdjacentHTML("beforeend", `<li>PASS ${testCase.id}</li>`);
+          } catch (error) {
+            failed += 1;
+            failures.push(testCase.id);
+            document.querySelector("#results").insertAdjacentHTML("beforeend", `<li>FAIL ${testCase.id}: ${String(error.message).replace(/[&<>]/g, "")}</li>`);
+          }
+        }
+        document.querySelector("#discovered").textContent = String(cases.length);
+        document.querySelector("#executed").textContent = String(passed + failed);
+        document.querySelector("#passed").textContent = String(passed);
+        document.querySelector("#failed").textContent = String(failed);
+        if (cases.length === 0) failures.push("ZERO_TESTS_DISCOVERED");
+        document.querySelector("#failures").innerHTML = failures.length ? failures.map((id) => `<li>${id}</li>`).join("") : "<li>None</li>";
+        status.textContent = cases.length === 0 ? "FAIL — zero tests discovered." : failed ? "FAIL — review failing cases." : "PASS — all discovered cases passed.";
+        status.dataset.kind = cases.length === 0 || failed ? "error" : "success";
+      } catch (error) {
+        status.textContent = `FAIL — test runner could not load: ${error.message}`;
+        document.querySelector("#failed").textContent = "1";
+        document.querySelector("#failures").innerHTML = "<li>TEST_RUNNER_SETUP</li>";
+      }
+    </script>
+  </body>
+</html>

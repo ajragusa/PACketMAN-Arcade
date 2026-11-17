@@ -7,4 +7,10 @@ __pycache__/
 .venv/
 .env*
 *.log
+dist/
+build/
+*.tmp
+*.swp
+.vscode/
+.idea/
 .claude/ralph-loop.local.md

@@ -1,0 +1,2776 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "id": "ipv4",
+      "title": "Internet Protocol",
+      "url": "https://www.rfc-editor.org/rfc/rfc791.html",
+      "section": "3.1; updated by RFC 2474 and RFC 6864",
+      "claim": "IPv4 headers carry source and destination addresses; the level shows only the fields needed for its model."
+    },
+    {
+      "id": "traceroute",
+      "title": "Internet Control Message Protocol",
+      "url": "https://www.rfc-editor.org/rfc/rfc792.html",
+      "section": "5, Time Exceeded Message",
+      "claim": "ICMP Time Exceeded messages are used as background for the game's simplified traceroute reveal."
+    },
+    {
+      "id": "acl",
+      "title": "Security Architecture for the Internet Protocol",
+      "url": "https://www.rfc-editor.org/rfc/rfc4301.html",
+      "section": "4.4.1, Selecting and Using Security Policies",
+      "claim": "The ordered first-match filter in this lesson is an explicitly simplified game policy, not a universal firewall configuration."
+    },
+    {
+      "id": "tcp",
+      "title": "Transmission Control Protocol",
+      "url": "https://www.rfc-editor.org/rfc/rfc9293.html",
+      "section": "2.2 and 3.3",
+      "claim": "TCP provides a reliable, in-order byte-stream service with retransmission behavior."
+    },
+    {
+      "id": "udp",
+      "title": "User Datagram Protocol",
+      "url": "https://www.rfc-editor.org/rfc/rfc768.html",
+      "section": "Introduction; updated by RFC 9868",
+      "claim": "UDP is transaction-oriented and does not guarantee delivery or duplicate protection; applications may add recovery."
+    },
+    {
+      "id": "gateway",
+      "title": "Requirements for Internet Hosts - Communication Layers",
+      "url": "https://www.rfc-editor.org/rfc/rfc1122.html",
+      "section": "3.3.1.1-3.3.1.2; updated by RFC 9293 for TCP requirements",
+      "claim": "A host distinguishes local destinations from remote ones and uses a configured gateway for off-link traffic."
+    },
+    {
+      "id": "cidr",
+      "title": "Classless Inter-domain Routing",
+      "url": "https://www.rfc-editor.org/rfc/rfc4632.html",
+      "section": "3.1, Basic Concept and Prefix Notation",
+      "claim": "A slash prefix denotes the significant leading bits used to represent an IPv4 network."
+    },
+    {
+      "id": "diffserv",
+      "title": "Definition of the Differentiated Services Field",
+      "url": "https://www.rfc-editor.org/rfc/rfc2474.html",
+      "section": "3; updated by RFC 3168, RFC 3260, and RFC 8436",
+      "claim": "Differentiated services use a header field to support service discrimination; the game's queue order is a local policy."
+    },
+    {
+      "id": "service-classes",
+      "title": "Configuration Guidelines for DiffServ Service Classes",
+      "url": "https://www.rfc-editor.org/rfc/rfc4594.html",
+      "section": "1.4.1 and 2.1-2.3; updated by RFC 5865 and RFC 8622",
+      "claim": "Service classes can use configured queuing behavior; these guidelines are informational rather than universal guarantees."
+    },
+    {
+      "id": "congestion",
+      "title": "TCP Congestion Control",
+      "url": "https://www.rfc-editor.org/rfc/rfc5681.html",
+      "section": "3; updated by RFC 9438",
+      "claim": "TCP congestion control responds to congestion; the lesson's finite delay and loss traces are a game model."
+    },
+    {
+      "id": "aqm",
+      "title": "IETF Recommendations Regarding Active Queue Management",
+      "url": "https://www.rfc-editor.org/rfc/rfc7567.html",
+      "section": "2",
+      "claim": "The document recommends active queue management; it does not imply a single queue or loss behavior in every network."
+    }
+  ],
+  "levels": [
+    {
+      "id": "routing",
+      "order": 1,
+      "title": "Choose the route",
+      "learningOutcome": "Compare hop count and total latency to choose a lowest-latency path.",
+      "briefing": "Links show latency in milliseconds. Add the values along a route; fewer hops do not always mean less delay. The traceroute reveal shows one probe's hops, not a universal best path.",
+      "sourceIds": [
+        "ipv4",
+        "traceroute"
+      ],
+      "network": {
+        "nodes": [
+          {
+            "id": "source",
+            "role": "host"
+          },
+          {
+            "id": "direct-mid",
+            "role": "router"
+          },
+          {
+            "id": "upper-mid-a",
+            "role": "router"
+          },
+          {
+            "id": "upper-mid-b",
+            "role": "router"
+          },
+          {
+            "id": "lower-mid-a",
+            "role": "router"
+          },
+          {
+            "id": "lower-mid-b",
+            "role": "router"
+          },
+          {
+            "id": "destination",
+            "role": "host"
+          }
+        ],
+        "links": [
+          {
+            "id": "direct-a",
+            "from": "source",
+            "to": "direct-mid",
+            "latencyMs": 40,
+            "riskPoints": 6,
+            "available": true
+          },
+          {
+            "id": "direct-b",
+            "from": "direct-mid",
+            "to": "destination",
+            "latencyMs": 40,
+            "riskPoints": 6,
+            "available": true
+          },
+          {
+            "id": "upper-a",
+            "from": "source",
+            "to": "upper-mid-a",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          },
+          {
+            "id": "upper-b",
+            "from": "upper-mid-a",
+            "to": "upper-mid-b",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          },
+          {
+            "id": "upper-c",
+            "from": "upper-mid-b",
+            "to": "destination",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          },
+          {
+            "id": "lower-a",
+            "from": "source",
+            "to": "lower-mid-a",
+            "latencyMs": 10,
+            "riskPoints": 2,
+            "available": true
+          },
+          {
+            "id": "lower-b",
+            "from": "lower-mid-a",
+            "to": "lower-mid-b",
+            "latencyMs": 10,
+            "riskPoints": 2,
+            "available": true
+          },
+          {
+            "id": "lower-c",
+            "from": "lower-mid-b",
+            "to": "destination",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          }
+        ],
+        "routes": [
+          {
+            "id": "direct",
+            "label": "Short route",
+            "linkIds": [
+              "direct-a",
+              "direct-b"
+            ]
+          },
+          {
+            "id": "upper",
+            "label": "Upper route",
+            "linkIds": [
+              "upper-a",
+              "upper-b",
+              "upper-c"
+            ]
+          },
+          {
+            "id": "lower",
+            "label": "Lower route",
+            "linkIds": [
+              "lower-a",
+              "lower-b",
+              "lower-c"
+            ]
+          }
+        ]
+      },
+      "challenge": {
+        "type": "routing",
+        "objective": "lowest-latency"
+      },
+      "hints": [
+        {
+          "method": "Count the links, then add each route's displayed latency values. Compare totals, not just hop counts.",
+          "solution": "The short route is 2 hops and 80 ms. Both the upper and lower routes are 3 hops and 30 ms, so either is a correct minimum."
+        }
+      ],
+      "completion": {
+        "required": "Reach the destination using any available lowest-latency route."
+      },
+      "checkpoints": [
+        {
+          "id": "baseline",
+          "title": "Choose the route",
+          "briefing": "Links show latency in milliseconds. Add the values along a route; fewer hops do not always mean less delay. The traceroute reveal shows one probe's hops, not a universal best path.",
+          "challenge": {},
+          "linkOverrides": [],
+          "hints": [
+            {
+              "method": "Count the links, then add each route's displayed latency values. Compare totals, not just hop counts.",
+              "solution": "The short route is 2 hops and 80 ms. Both the upper and lower routes are 3 hops and 30 ms, so either is a correct minimum."
+            }
+          ]
+        },
+        {
+          "id": "latency-shift",
+          "title": "A faster express link",
+          "briefing": "New measurements apply only to this checkpoint's next network segment. Recalculate every route: the shortest route can now be fastest.",
+          "challenge": {},
+          "linkOverrides": [
+            {
+              "id": "direct-a",
+              "latencyMs": 6
+            },
+            {
+              "id": "direct-b",
+              "latencyMs": 6
+            },
+            {
+              "id": "upper-a",
+              "latencyMs": 25
+            },
+            {
+              "id": "lower-a",
+              "latencyMs": 35
+            }
+          ],
+          "hints": [
+            {
+              "method": "Add the new link values; do not reuse the previous checkpoint's answer.",
+              "solution": "The direct route totals 12 ms, upper 45 ms, and lower 55 ms. Choose the direct route."
+            }
+          ]
+        },
+        {
+          "id": "link-failure",
+          "title": "Route around an outage",
+          "briefing": "The direct route has a failed link. Compare only available routes using this checkpoint's new measurements.",
+          "challenge": {},
+          "linkOverrides": [
+            {
+              "id": "upper-a",
+              "latencyMs": 2
+            },
+            {
+              "id": "upper-b",
+              "latencyMs": 3
+            },
+            {
+              "id": "upper-c",
+              "latencyMs": 4
+            },
+            {
+              "id": "lower-a",
+              "latencyMs": 8
+            },
+            {
+              "id": "lower-b",
+              "latencyMs": 8
+            },
+            {
+              "id": "lower-c",
+              "latencyMs": 8
+            },
+            {
+              "id": "direct-a",
+              "available": false
+            }
+          ],
+          "hints": [
+            {
+              "method": "Reject any route with a failed link before comparing latency.",
+              "solution": "The upper route is available and totals 9 ms; lower totals 24 ms. Direct is unavailable. Choose upper."
+            }
+          ]
+        }
+      ],
+      "ghostQuestions": [
+        {
+          "id": "total-delay",
+          "prompt": "Route A has two 40 ms links. Route B has three 10 ms links. Both are available. Which has lower total latency?",
+          "choices": [
+            {
+              "id": "a",
+              "label": "Route A: fewer hops"
+            },
+            {
+              "id": "b",
+              "label": "Route B: lower summed latency"
+            }
+          ],
+          "answerId": "b",
+          "explanation": "A totals 80 ms; B totals 30 ms. Fewer hops do not necessarily mean less delay."
+        },
+        {
+          "id": "failed-link",
+          "prompt": "A 5 ms route contains an unavailable link. A 20 ms route is fully available. Which can deliver under this model?",
+          "choices": [
+            {
+              "id": "available",
+              "label": "The available 20 ms route"
+            },
+            {
+              "id": "fast",
+              "label": "The route labeled 5 ms"
+            }
+          ],
+          "answerId": "available",
+          "explanation": "A failed link makes that route unavailable. Compare latency only among viable routes."
+        },
+        {
+          "id": "latency-tie",
+          "prompt": "Two available routes total 10 + 10 ms and 5 + 15 ms. The objective is minimum latency. Which is acceptable?",
+          "choices": [
+            {
+              "id": "first",
+              "label": "Only the first route"
+            },
+            {
+              "id": "second",
+              "label": "Only the second route"
+            },
+            {
+              "id": "either",
+              "label": "Either route"
+            }
+          ],
+          "answerId": "either",
+          "explanation": "Both total 20 ms, so both tied minimum-latency routes are accepted."
+        }
+      ]
+    },
+    {
+      "id": "acl",
+      "order": 2,
+      "title": "Read the filter",
+      "learningOutcome": "Apply the first matching rule in an ordered packet filter.",
+      "briefing": "This small teaching filter checks rules from top to bottom and applies the first match. That ordering is the level's declared model, not a universal firewall configuration. A one-crossing edit temporarily allows the selected rule, then resets.",
+      "sourceIds": [
+        "acl",
+        "ipv4"
+      ],
+      "network": {
+        "nodes": [
+          {
+            "id": "source",
+            "role": "host"
+          },
+          {
+            "id": "direct-mid",
+            "role": "router"
+          },
+          {
+            "id": "upper-mid-a",
+            "role": "router"
+          },
+          {
+            "id": "upper-mid-b",
+            "role": "router"
+          },
+          {
+            "id": "lower-mid-a",
+            "role": "router"
+          },
+          {
+            "id": "lower-mid-b",
+            "role": "router"
+          },
+          {
+            "id": "destination",
+            "role": "host"
+          }
+        ],
+        "links": [
+          {
+            "id": "direct-a",
+            "from": "source",
+            "to": "direct-mid",
+            "latencyMs": 40,
+            "riskPoints": 6,
+            "available": true
+          },
+          {
+            "id": "direct-b",
+            "from": "direct-mid",
+            "to": "destination",
+            "latencyMs": 40,
+            "riskPoints": 6,
+            "available": true
+          },
+          {
+            "id": "upper-a",
+            "from": "source",
+            "to": "upper-mid-a",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          },
+          {
+            "id": "upper-b",
+            "from": "upper-mid-a",
+            "to": "upper-mid-b",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          },
+          {
+            "id": "upper-c",
+            "from": "upper-mid-b",
+            "to": "destination",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          },
+          {
+            "id": "lower-a",
+            "from": "source",
+            "to": "lower-mid-a",
+            "latencyMs": 10,
+            "riskPoints": 2,
+            "available": true
+          },
+          {
+            "id": "lower-b",
+            "from": "lower-mid-a",
+            "to": "lower-mid-b",
+            "latencyMs": 10,
+            "riskPoints": 2,
+            "available": true
+          },
+          {
+            "id": "lower-c",
+            "from": "lower-mid-b",
+            "to": "destination",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          }
+        ],
+        "routes": [
+          {
+            "id": "direct",
+            "label": "Short route",
+            "linkIds": [
+              "direct-a",
+              "direct-b"
+            ]
+          },
+          {
+            "id": "upper",
+            "label": "Upper route",
+            "linkIds": [
+              "upper-a",
+              "upper-b",
+              "upper-c"
+            ]
+          },
+          {
+            "id": "lower",
+            "label": "Lower route",
+            "linkIds": [
+              "lower-a",
+              "lower-b",
+              "lower-c"
+            ]
+          }
+        ]
+      },
+      "challenge": {
+        "type": "acl",
+        "defaultAction": "deny",
+        "packets": [
+          {
+            "id": "web",
+            "label": "Web request",
+            "sourceIp": "192.0.2.10",
+            "destinationPort": 443,
+            "protocol": "tcp"
+          },
+          {
+            "id": "admin",
+            "label": "Unapproved admin request",
+            "sourceIp": "192.0.2.55",
+            "destinationPort": 22,
+            "protocol": "tcp"
+          }
+        ],
+        "rules": [
+          {
+            "id": "deny-admin",
+            "protocol": "tcp",
+            "sourceIp": "any",
+            "destinationPort": 22,
+            "action": "deny"
+          },
+          {
+            "id": "allow-web",
+            "protocol": "tcp",
+            "sourceIp": "any",
+            "destinationPort": 443,
+            "action": "allow"
+          }
+        ],
+        "editableRule": {
+          "id": "deny-admin",
+          "temporaryAction": "allow"
+        }
+      },
+      "hints": [
+        {
+          "method": "Read each packet's protocol and destination port, then scan the ordered rules from the top until the first match.",
+          "solution": "The web request matches allow-web and passes. The admin request matches deny-admin and is dropped; the one-crossing edit can temporarily allow that rule."
+        }
+      ],
+      "completion": {
+        "required": "Pass a packet allowed by the active first-match policy."
+      },
+      "checkpoints": [
+        {
+          "id": "baseline",
+          "title": "Read the filter",
+          "briefing": "This small teaching filter checks rules from top to bottom and applies the first match. That ordering is the level's declared model, not a universal firewall configuration. A one-crossing edit temporarily allows the selected rule, then resets.",
+          "challenge": {},
+          "linkOverrides": [],
+          "hints": [
+            {
+              "method": "Read each packet's protocol and destination port, then scan the ordered rules from the top until the first match.",
+              "solution": "The web request matches allow-web and passes. The admin request matches deny-admin and is dropped; the one-crossing edit can temporarily allow that rule."
+            }
+          ]
+        },
+        {
+          "id": "source-exception",
+          "title": "An earlier source exception",
+          "briefing": "The first rule blocks a flagged source even though a later rule permits HTTPS. Choose a permitted packet, or deliberately arm the one-crossing exception.",
+          "challenge": {
+            "packets": [
+              {
+                "id": "flagged",
+                "label": "Flagged-source HTTPS",
+                "sourceIp": "192.0.2.55",
+                "destinationPort": 443,
+                "protocol": "tcp"
+              },
+              {
+                "id": "trusted",
+                "label": "Trusted-source HTTPS",
+                "sourceIp": "192.0.2.10",
+                "destinationPort": 443,
+                "protocol": "tcp"
+              }
+            ],
+            "rules": [
+              {
+                "id": "deny-flagged",
+                "protocol": "any",
+                "sourceIp": "192.0.2.55",
+                "destinationPort": "any",
+                "action": "deny"
+              },
+              {
+                "id": "allow-web",
+                "protocol": "tcp",
+                "sourceIp": "any",
+                "destinationPort": 443,
+                "action": "allow"
+              }
+            ],
+            "editableRule": {
+              "id": "deny-flagged",
+              "temporaryAction": "allow"
+            }
+          },
+          "linkOverrides": [],
+          "hints": [
+            {
+              "method": "Check source address as well as protocol and port. Stop at the first matching rule.",
+              "solution": "Trusted-source HTTPS passes allow-web. Flagged-source HTTPS is denied by the earlier source rule unless its one-crossing edit is armed."
+            }
+          ]
+        },
+        {
+          "id": "default-policy",
+          "title": "When no rule matches",
+          "briefing": "This checkpoint deliberately uses default allow, unlike the earlier filters. It explicitly blocks DNS datagrams; unmatched telemetry follows the declared default.",
+          "challenge": {
+            "defaultAction": "allow",
+            "packets": [
+              {
+                "id": "dns",
+                "label": "DNS datagram",
+                "sourceIp": "192.0.2.10",
+                "destinationPort": 53,
+                "protocol": "udp"
+              },
+              {
+                "id": "telemetry",
+                "label": "Telemetry datagram",
+                "sourceIp": "192.0.2.10",
+                "destinationPort": 9000,
+                "protocol": "udp"
+              }
+            ],
+            "rules": [
+              {
+                "id": "deny-dns",
+                "protocol": "udp",
+                "sourceIp": "any",
+                "destinationPort": 53,
+                "action": "deny"
+              }
+            ],
+            "editableRule": {
+              "id": "deny-dns",
+              "temporaryAction": "allow"
+            }
+          },
+          "linkOverrides": [],
+          "hints": [
+            {
+              "method": "If no rule matches, read this checkpoint's default rather than assuming deny.",
+              "solution": "Telemetry matches no rule and passes by default allow. DNS matches deny-dns unless you apply its one-crossing edit."
+            }
+          ]
+        }
+      ],
+      "ghostQuestions": [
+        {
+          "id": "first-match",
+          "prompt": "The first rule denies TCP port 22. A later rule allows all TCP. What happens to a TCP packet for port 22?",
+          "choices": [
+            {
+              "id": "allow",
+              "label": "The later allow rule wins"
+            },
+            {
+              "id": "deny",
+              "label": "The first matching deny rule wins"
+            }
+          ],
+          "answerId": "deny",
+          "explanation": "The ordered first-match policy stops at the port-22 deny rule; it does not continue to a later allow."
+        },
+        {
+          "id": "no-match",
+          "prompt": "No filter rule matches this packet, and the declared default is deny. What happens?",
+          "choices": [
+            {
+              "id": "drop",
+              "label": "The packet is denied"
+            },
+            {
+              "id": "pass",
+              "label": "An unmatched packet always passes"
+            }
+          ],
+          "answerId": "drop",
+          "explanation": "When no rule matches, the declared default action applies. This filter's default is deny."
+        },
+        {
+          "id": "temporary-edit",
+          "prompt": "You used a one-crossing edit to allow a normally denied packet. What policy applies to the next crossing?",
+          "choices": [
+            {
+              "id": "permanent",
+              "label": "The edit stays active for the whole lesson"
+            },
+            {
+              "id": "restored",
+              "label": "The original rule is restored"
+            }
+          ],
+          "answerId": "restored",
+          "explanation": "The temporary edit applies to one crossing only. The original filter rule applies afterward."
+        }
+      ]
+    },
+    {
+      "id": "transport",
+      "order": 3,
+      "title": "Choose a transport",
+      "learningOutcome": "Choose transport behavior that fits an application's delivery need.",
+      "briefing": "TCP offers an ordered byte stream with retransmission behavior. UDP sends independent datagrams without transport-level delivery or retransmission guarantees; an application can add recovery. This level compares behavior, not movement speed.",
+      "sourceIds": [
+        "tcp",
+        "udp"
+      ],
+      "network": {
+        "nodes": [
+          {
+            "id": "source",
+            "role": "host"
+          },
+          {
+            "id": "direct-mid",
+            "role": "router"
+          },
+          {
+            "id": "upper-mid-a",
+            "role": "router"
+          },
+          {
+            "id": "upper-mid-b",
+            "role": "router"
+          },
+          {
+            "id": "lower-mid-a",
+            "role": "router"
+          },
+          {
+            "id": "lower-mid-b",
+            "role": "router"
+          },
+          {
+            "id": "destination",
+            "role": "host"
+          }
+        ],
+        "links": [
+          {
+            "id": "direct-a",
+            "from": "source",
+            "to": "direct-mid",
+            "latencyMs": 40,
+            "riskPoints": 6,
+            "available": true
+          },
+          {
+            "id": "direct-b",
+            "from": "direct-mid",
+            "to": "destination",
+            "latencyMs": 40,
+            "riskPoints": 6,
+            "available": true
+          },
+          {
+            "id": "upper-a",
+            "from": "source",
+            "to": "upper-mid-a",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          },
+          {
+            "id": "upper-b",
+            "from": "upper-mid-a",
+            "to": "upper-mid-b",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          },
+          {
+            "id": "upper-c",
+            "from": "upper-mid-b",
+            "to": "destination",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          },
+          {
+            "id": "lower-a",
+            "from": "source",
+            "to": "lower-mid-a",
+            "latencyMs": 10,
+            "riskPoints": 2,
+            "available": true
+          },
+          {
+            "id": "lower-b",
+            "from": "lower-mid-a",
+            "to": "lower-mid-b",
+            "latencyMs": 10,
+            "riskPoints": 2,
+            "available": true
+          },
+          {
+            "id": "lower-c",
+            "from": "lower-mid-b",
+            "to": "destination",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          }
+        ],
+        "routes": [
+          {
+            "id": "direct",
+            "label": "Short route",
+            "linkIds": [
+              "direct-a",
+              "direct-b"
+            ]
+          },
+          {
+            "id": "upper",
+            "label": "Upper route",
+            "linkIds": [
+              "upper-a",
+              "upper-b",
+              "upper-c"
+            ]
+          },
+          {
+            "id": "lower",
+            "label": "Lower route",
+            "linkIds": [
+              "lower-a",
+              "lower-b",
+              "lower-c"
+            ]
+          }
+        ]
+      },
+      "challenge": {
+        "type": "transport",
+        "need": "A complete, ordered configuration file must arrive intact.",
+        "correctTransport": "tcp",
+        "explanation": "this task needs an ordered stream and transport retransmission behavior."
+      },
+      "hints": [
+        {
+          "method": "Ask whether the application needs a reliable ordered stream or can handle independent datagrams itself.",
+          "solution": "Choose TCP for the complete ordered configuration file. UDP does not itself guarantee delivery or retransmission."
+        }
+      ],
+      "completion": {
+        "required": "Choose the transport behavior that fits the stated delivery need."
+      },
+      "checkpoints": [
+        {
+          "id": "baseline",
+          "title": "Choose a transport",
+          "briefing": "TCP offers an ordered byte stream with retransmission behavior. UDP sends independent datagrams without transport-level delivery or retransmission guarantees; an application can add recovery. This level compares behavior, not movement speed.",
+          "challenge": {},
+          "linkOverrides": [],
+          "hints": [
+            {
+              "method": "Ask whether the application needs a reliable ordered stream or can handle independent datagrams itself.",
+              "solution": "Choose TCP for the complete ordered configuration file. UDP does not itself guarantee delivery or retransmission."
+            }
+          ]
+        },
+        {
+          "id": "independent-updates",
+          "title": "Independent position updates",
+          "briefing": "The application needs separate datagrams, handles missing updates itself, and explicitly does not want an ordered byte stream or transport retransmissions.",
+          "challenge": {
+            "need": "Send independent position-update datagrams; application code handles recovery and does not require transport ordering.",
+            "correctTransport": "udp",
+            "explanation": "UDP preserves datagram boundaries without transport-level delivery, ordering, or retransmission guarantees; this application handles recovery itself."
+          },
+          "linkOverrides": [],
+          "hints": [
+            {
+              "method": "Match the requested message semantics, not a blanket claim about speed.",
+              "solution": "Choose UDP for these independent datagrams. Application recovery does not turn UDP itself into a reliable transport."
+            }
+          ]
+        },
+        {
+          "id": "ordered-log",
+          "title": "An ordered audit stream",
+          "briefing": "A new task needs every log entry in order. Choose again for this need rather than repeating the last transport.",
+          "challenge": {
+            "need": "Transfer a complete audit log as an ordered byte stream with transport retransmission.",
+            "correctTransport": "tcp",
+            "explanation": "TCP provides an ordered byte stream with retransmission behavior; the application still defines log-record boundaries."
+          },
+          "linkOverrides": [],
+          "hints": [
+            {
+              "method": "Identify whether completeness and stream ordering are required.",
+              "solution": "Choose TCP. The application must frame its records within TCP's byte stream."
+            }
+          ]
+        }
+      ],
+      "ghostQuestions": [
+        {
+          "id": "ordered-stream",
+          "prompt": "An application needs a complete, ordered byte stream with transport retransmission. Which transport matches?",
+          "choices": [
+            {
+              "id": "udp",
+              "label": "UDP"
+            },
+            {
+              "id": "tcp",
+              "label": "TCP"
+            }
+          ],
+          "answerId": "tcp",
+          "explanation": "TCP provides reliable, ordered byte-stream delivery with retransmission behavior. UDP itself does not."
+        },
+        {
+          "id": "udp-recovery",
+          "prompt": "A UDP datagram is lost. Which statement about UDP itself is correct?",
+          "choices": [
+            {
+              "id": "guaranteed",
+              "label": "UDP guarantees automatic retransmission"
+            },
+            {
+              "id": "application",
+              "label": "UDP has no delivery/retransmission guarantee; the application may add recovery"
+            }
+          ],
+          "answerId": "application",
+          "explanation": "Recovery can be implemented above UDP, but it is not a transport-level guarantee provided by UDP."
+        },
+        {
+          "id": "record-boundaries",
+          "prompt": "An application sends several records over TCP. Who must define the record boundaries?",
+          "choices": [
+            {
+              "id": "application",
+              "label": "The application, using framing within the byte stream"
+            },
+            {
+              "id": "transport",
+              "label": "TCP automatically preserves each application's record"
+            }
+          ],
+          "answerId": "application",
+          "explanation": "TCP delivers an ordered byte stream, not application message boundaries. The application supplies framing."
+        }
+      ]
+    },
+    {
+      "id": "subnet",
+      "order": 4,
+      "title": "Find the next hop",
+      "learningOutcome": "Use a prefix to decide whether a destination is local or needs a gateway.",
+      "briefing": "Compare the destination with the shown IPv4 prefix. A destination inside the local prefix is reached locally; an off-subnet destination is sent to the configured gateway. This lesson models one host and one configured prefix.",
+      "sourceIds": [
+        "gateway",
+        "cidr"
+      ],
+      "network": {
+        "nodes": [
+          {
+            "id": "source",
+            "role": "host"
+          },
+          {
+            "id": "direct-mid",
+            "role": "router"
+          },
+          {
+            "id": "upper-mid-a",
+            "role": "router"
+          },
+          {
+            "id": "upper-mid-b",
+            "role": "router"
+          },
+          {
+            "id": "lower-mid-a",
+            "role": "router"
+          },
+          {
+            "id": "lower-mid-b",
+            "role": "router"
+          },
+          {
+            "id": "destination",
+            "role": "host"
+          }
+        ],
+        "links": [
+          {
+            "id": "direct-a",
+            "from": "source",
+            "to": "direct-mid",
+            "latencyMs": 40,
+            "riskPoints": 6,
+            "available": true
+          },
+          {
+            "id": "direct-b",
+            "from": "direct-mid",
+            "to": "destination",
+            "latencyMs": 40,
+            "riskPoints": 6,
+            "available": true
+          },
+          {
+            "id": "upper-a",
+            "from": "source",
+            "to": "upper-mid-a",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          },
+          {
+            "id": "upper-b",
+            "from": "upper-mid-a",
+            "to": "upper-mid-b",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          },
+          {
+            "id": "upper-c",
+            "from": "upper-mid-b",
+            "to": "destination",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          },
+          {
+            "id": "lower-a",
+            "from": "source",
+            "to": "lower-mid-a",
+            "latencyMs": 10,
+            "riskPoints": 2,
+            "available": true
+          },
+          {
+            "id": "lower-b",
+            "from": "lower-mid-a",
+            "to": "lower-mid-b",
+            "latencyMs": 10,
+            "riskPoints": 2,
+            "available": true
+          },
+          {
+            "id": "lower-c",
+            "from": "lower-mid-b",
+            "to": "destination",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          }
+        ],
+        "routes": [
+          {
+            "id": "direct",
+            "label": "Short route",
+            "linkIds": [
+              "direct-a",
+              "direct-b"
+            ]
+          },
+          {
+            "id": "upper",
+            "label": "Upper route",
+            "linkIds": [
+              "upper-a",
+              "upper-b",
+              "upper-c"
+            ]
+          },
+          {
+            "id": "lower",
+            "label": "Lower route",
+            "linkIds": [
+              "lower-a",
+              "lower-b",
+              "lower-c"
+            ]
+          }
+        ]
+      },
+      "challenge": {
+        "type": "subnet-gateway",
+        "sourceIp": "192.0.2.10",
+        "destinationIp": "198.51.100.24",
+        "localExample": "192.0.2.42",
+        "prefix": "192.0.2.0/24",
+        "gateway": "192.0.2.1"
+      },
+      "hints": [
+        {
+          "method": "Compare the destination's leading 24 bits with 192.0.2.0/24; only matching addresses are local.",
+          "solution": "198.51.100.24 is outside 192.0.2.0/24, so send it to the configured gateway 192.0.2.1. The example 192.0.2.42 is local."
+        }
+      ],
+      "completion": {
+        "required": "Select local delivery or the configured gateway based on the prefix."
+      },
+      "checkpoints": [
+        {
+          "id": "baseline",
+          "title": "Find the next hop",
+          "briefing": "Compare the destination with the shown IPv4 prefix. A destination inside the local prefix is reached locally; an off-subnet destination is sent to the configured gateway. This lesson models one host and one configured prefix.",
+          "challenge": {},
+          "linkOverrides": [],
+          "hints": [
+            {
+              "method": "Compare the destination's leading 24 bits with 192.0.2.0/24; only matching addresses are local.",
+              "solution": "198.51.100.24 is outside 192.0.2.0/24, so send it to the configured gateway 192.0.2.1. The example 192.0.2.42 is local."
+            }
+          ]
+        },
+        {
+          "id": "local-prefix",
+          "title": "A smaller local network",
+          "briefing": "The local network is now 192.0.2.0/26, covering addresses 192.0.2.0 through 192.0.2.63. Compare the actual destination with that range.",
+          "challenge": {
+            "prefix": "192.0.2.0/26",
+            "destinationIp": "192.0.2.62",
+            "localExample": "192.0.2.42"
+          },
+          "linkOverrides": [],
+          "hints": [
+            {
+              "method": "A /26 has blocks of 64 addresses. Use the prefix, not just the first three octets.",
+              "solution": "192.0.2.62 is inside 192.0.2.0/26, so deliver locally."
+            }
+          ]
+        },
+        {
+          "id": "prefix-boundary",
+          "title": "Across the prefix boundary",
+          "briefing": "The destination changes to 192.0.2.65 while the local prefix remains /26. The first three octets alone are not enough to decide.",
+          "challenge": {
+            "prefix": "192.0.2.0/26",
+            "destinationIp": "192.0.2.65",
+            "localExample": "192.0.2.42"
+          },
+          "linkOverrides": [],
+          "hints": [
+            {
+              "method": "The local /26 stops at .63; .64 begins the next block.",
+              "solution": "192.0.2.65 is outside 192.0.2.0/26. Send it to the configured gateway 192.0.2.1."
+            }
+          ]
+        }
+      ],
+      "ghostQuestions": [
+        {
+          "id": "local-host",
+          "prompt": "The local prefix is 192.0.2.0/24. Is destination 192.0.2.99 local or reached through the configured gateway?",
+          "choices": [
+            {
+              "id": "local",
+              "label": "Local delivery"
+            },
+            {
+              "id": "gateway",
+              "label": "Use the gateway"
+            }
+          ],
+          "answerId": "local",
+          "explanation": "192.0.2.99 is inside 192.0.2.0/24, so this model delivers it locally."
+        },
+        {
+          "id": "smaller-prefix",
+          "prompt": "The local prefix 192.0.2.0/26 covers .0 through .63. Where should a packet for 192.0.2.70 go?",
+          "choices": [
+            {
+              "id": "local",
+              "label": "Directly to a local destination"
+            },
+            {
+              "id": "gateway",
+              "label": "To the configured gateway"
+            }
+          ],
+          "answerId": "gateway",
+          "explanation": "The destination .70 lies outside the local /26 even though its first three octets match."
+        },
+        {
+          "id": "next-block",
+          "prompt": "A host is on 192.0.2.64/26, covering .64 through .127. Is 192.0.2.90 inside this local prefix?",
+          "choices": [
+            {
+              "id": "outside",
+              "label": "No, use the gateway"
+            },
+            {
+              "id": "inside",
+              "label": "Yes, deliver locally"
+            }
+          ],
+          "answerId": "inside",
+          "explanation": "The address .90 is within the .64 through .127 block, so it is local to 192.0.2.64/26."
+        }
+      ]
+    },
+    {
+      "id": "qos",
+      "order": 5,
+      "title": "Share the bottleneck",
+      "learningOutcome": "Apply a declared service order to traffic sharing a bottleneck.",
+      "briefing": "The shared link uses a strict-priority teaching queue: voice is served before bulk traffic when both are waiting. This is a local game policy, not a promise that priority traffic is immune to loss or failure.",
+      "sourceIds": [
+        "diffserv",
+        "service-classes"
+      ],
+      "network": {
+        "nodes": [
+          {
+            "id": "source",
+            "role": "host"
+          },
+          {
+            "id": "direct-mid",
+            "role": "router"
+          },
+          {
+            "id": "upper-mid-a",
+            "role": "router"
+          },
+          {
+            "id": "upper-mid-b",
+            "role": "router"
+          },
+          {
+            "id": "lower-mid-a",
+            "role": "router"
+          },
+          {
+            "id": "lower-mid-b",
+            "role": "router"
+          },
+          {
+            "id": "destination",
+            "role": "host"
+          }
+        ],
+        "links": [
+          {
+            "id": "direct-a",
+            "from": "source",
+            "to": "direct-mid",
+            "latencyMs": 40,
+            "riskPoints": 6,
+            "available": true
+          },
+          {
+            "id": "direct-b",
+            "from": "direct-mid",
+            "to": "destination",
+            "latencyMs": 40,
+            "riskPoints": 6,
+            "available": true
+          },
+          {
+            "id": "upper-a",
+            "from": "source",
+            "to": "upper-mid-a",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          },
+          {
+            "id": "upper-b",
+            "from": "upper-mid-a",
+            "to": "upper-mid-b",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          },
+          {
+            "id": "upper-c",
+            "from": "upper-mid-b",
+            "to": "destination",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          },
+          {
+            "id": "lower-a",
+            "from": "source",
+            "to": "lower-mid-a",
+            "latencyMs": 10,
+            "riskPoints": 2,
+            "available": true
+          },
+          {
+            "id": "lower-b",
+            "from": "lower-mid-a",
+            "to": "lower-mid-b",
+            "latencyMs": 10,
+            "riskPoints": 2,
+            "available": true
+          },
+          {
+            "id": "lower-c",
+            "from": "lower-mid-b",
+            "to": "destination",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          }
+        ],
+        "routes": [
+          {
+            "id": "direct",
+            "label": "Short route",
+            "linkIds": [
+              "direct-a",
+              "direct-b"
+            ]
+          },
+          {
+            "id": "upper",
+            "label": "Upper route",
+            "linkIds": [
+              "upper-a",
+              "upper-b",
+              "upper-c"
+            ]
+          },
+          {
+            "id": "lower",
+            "label": "Lower route",
+            "linkIds": [
+              "lower-a",
+              "lower-b",
+              "lower-c"
+            ]
+          }
+        ]
+      },
+      "challenge": {
+        "type": "qos",
+        "queuePolicy": "strict priority",
+        "serviceOrder": [
+          "voice",
+          "bulk"
+        ],
+        "classes": [
+          {
+            "id": "voice",
+            "label": "Voice (interactive)"
+          },
+          {
+            "id": "bulk",
+            "label": "Bulk transfer"
+          }
+        ]
+      },
+      "backgroundPackets": [
+        {
+          "id": "background-bulk",
+          "label": "Scripted bulk packet",
+          "trafficClass": "bulk",
+          "linkId": "upper-b"
+        },
+        {
+          "id": "background-voice",
+          "label": "Scripted voice packet",
+          "trafficClass": "voice",
+          "linkId": "upper-b"
+        }
+      ],
+      "bottleneckLinkId": "upper-b",
+      "hints": [
+        {
+          "method": "Check the declared queue policy and compare the classes waiting on the same link.",
+          "solution": "Voice is first in the stated strict-priority service order, ahead of bulk traffic."
+        }
+      ],
+      "completion": {
+        "required": "Choose the class with first service under the declared policy."
+      },
+      "checkpoints": [
+        {
+          "id": "baseline",
+          "title": "Share the bottleneck",
+          "briefing": "The shared link uses a strict-priority teaching queue: voice is served before bulk traffic when both are waiting. This is a local game policy, not a promise that priority traffic is immune to loss or failure.",
+          "challenge": {},
+          "linkOverrides": [],
+          "hints": [
+            {
+              "method": "Check the declared queue policy and compare the classes waiting on the same link.",
+              "solution": "Voice is first in the stated strict-priority service order, ahead of bulk traffic."
+            }
+          ]
+        },
+        {
+          "id": "control-first",
+          "title": "A control-traffic queue",
+          "briefing": "This router declares a different strict-priority order: control traffic, then voice, then bulk. All three classes are waiting.",
+          "challenge": {
+            "queuePolicy": "strict priority: control before voice before bulk",
+            "serviceOrder": [
+              "control",
+              "voice",
+              "bulk"
+            ],
+            "classes": [
+              {
+                "id": "control",
+                "label": "Network control"
+              },
+              {
+                "id": "voice",
+                "label": "Voice"
+              },
+              {
+                "id": "bulk",
+                "label": "Bulk transfer"
+              }
+            ]
+          },
+          "linkOverrides": [],
+          "hints": [
+            {
+              "method": "Read this router's configured priority order rather than assuming voice is always first.",
+              "solution": "Control traffic receives first service under this checkpoint's declared policy."
+            }
+          ]
+        },
+        {
+          "id": "reserved-slot",
+          "title": "A reserved bulk-service slot",
+          "briefing": "This teaching scheduler has reserved the current service slot for bulk transfer. Its displayed order applies to this round, not all future rounds.",
+          "challenge": {
+            "queuePolicy": "reserved bulk slot in the current service round",
+            "serviceOrder": [
+              "bulk",
+              "voice"
+            ],
+            "classes": [
+              {
+                "id": "voice",
+                "label": "Voice"
+              },
+              {
+                "id": "bulk",
+                "label": "Bulk transfer"
+              }
+            ]
+          },
+          "linkOverrides": [],
+          "hints": [
+            {
+              "method": "Scheduling is a local policy. Which class owns the current slot?",
+              "solution": "Bulk receives first service in this reserved round. This does not imply immunity to packet loss."
+            }
+          ]
+        }
+      ],
+      "ghostQuestions": [
+        {
+          "id": "configured-order",
+          "prompt": "A router declares service order control, voice, then bulk, and all three are waiting. Which is served first?",
+          "choices": [
+            {
+              "id": "voice",
+              "label": "Voice is always first"
+            },
+            {
+              "id": "control",
+              "label": "Control, according to this router's policy"
+            },
+            {
+              "id": "bulk",
+              "label": "Bulk"
+            }
+          ],
+          "answerId": "control",
+          "explanation": "Service follows the declared local policy. Here control precedes voice and bulk."
+        },
+        {
+          "id": "priority-loss",
+          "prompt": "Voice traffic has the highest queue priority. Does this guarantee that its packets cannot be lost?",
+          "choices": [
+            {
+              "id": "immune",
+              "label": "Yes, priority makes packets immune to loss"
+            },
+            {
+              "id": "not-guaranteed",
+              "label": "No, priority service is not a loss-free delivery guarantee"
+            }
+          ],
+          "answerId": "not-guaranteed",
+          "explanation": "Queue priority determines service treatment; it does not eliminate link failures or every possible loss event."
+        },
+        {
+          "id": "reserved-round",
+          "prompt": "The current scheduler round reserves its first service slot for bulk traffic. Which waiting class gets that slot?",
+          "choices": [
+            {
+              "id": "bulk",
+              "label": "Bulk, under the declared current-round policy"
+            },
+            {
+              "id": "voice",
+              "label": "Voice, regardless of the declared policy"
+            }
+          ],
+          "answerId": "bulk",
+          "explanation": "The reserved bulk slot applies to this round. Other routers or later rounds may use a different service order."
+        }
+      ]
+    },
+    {
+      "id": "congestion-loss",
+      "order": 6,
+      "title": "Manage delivery risk",
+      "learningOutcome": "Choose the lowest-risk route and distinguish route risk from a single delivery event.",
+      "briefing": "Risk points are a game model, not probabilities. Choose the lowest-risk route, optionally apply the four-point shielding action, then deliver. A scripted loss does not make a correct risk choice wrong; retry uses the next deterministic trace with no penalty.",
+      "sourceIds": [
+        "congestion",
+        "aqm"
+      ],
+      "network": {
+        "nodes": [
+          {
+            "id": "source",
+            "role": "host"
+          },
+          {
+            "id": "direct-mid",
+            "role": "router"
+          },
+          {
+            "id": "upper-mid-a",
+            "role": "router"
+          },
+          {
+            "id": "upper-mid-b",
+            "role": "router"
+          },
+          {
+            "id": "lower-mid-a",
+            "role": "router"
+          },
+          {
+            "id": "lower-mid-b",
+            "role": "router"
+          },
+          {
+            "id": "destination",
+            "role": "host"
+          }
+        ],
+        "links": [
+          {
+            "id": "direct-a",
+            "from": "source",
+            "to": "direct-mid",
+            "latencyMs": 40,
+            "riskPoints": 6,
+            "available": true
+          },
+          {
+            "id": "direct-b",
+            "from": "direct-mid",
+            "to": "destination",
+            "latencyMs": 40,
+            "riskPoints": 6,
+            "available": true
+          },
+          {
+            "id": "upper-a",
+            "from": "source",
+            "to": "upper-mid-a",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          },
+          {
+            "id": "upper-b",
+            "from": "upper-mid-a",
+            "to": "upper-mid-b",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          },
+          {
+            "id": "upper-c",
+            "from": "upper-mid-b",
+            "to": "destination",
+            "latencyMs": 10,
+            "riskPoints": 3,
+            "available": true
+          },
+          {
+            "id": "lower-a",
+            "from": "source",
+            "to": "lower-mid-a",
+            "latencyMs": 10,
+            "riskPoints": 2,
+            "available": true
+          },
+          {
+            "id": "lower-b",
+            "from": "lower-mid-a",
+            "to": "lower-mid-b",
+            "latencyMs": 10,
+            "riskPoints": 2,
+            "available": true
+          },
+          {
+            "id": "lower-c",
+            "from": "lower-mid-b",
+            "to": "destination",
+            "latencyMs": 10,
+            "riskPoints": 2,
+            "available": true
+          }
+        ],
+        "routes": [
+          {
+            "id": "direct",
+            "label": "Short route",
+            "linkIds": [
+              "direct-a",
+              "direct-b"
+            ]
+          },
+          {
+            "id": "upper",
+            "label": "Upper route",
+            "linkIds": [
+              "upper-a",
+              "upper-b",
+              "upper-c"
+            ]
+          },
+          {
+            "id": "lower",
+            "label": "Lower route",
+            "linkIds": [
+              "lower-a",
+              "lower-b",
+              "lower-c"
+            ]
+          }
+        ]
+      },
+      "challenge": {
+        "type": "congestion-loss",
+        "riskReductionPoints": 4
+      },
+      "backgroundPackets": [
+        {
+          "id": "background-1",
+          "label": "Scripted congestion packet A",
+          "trafficClass": "bulk",
+          "linkId": "lower-b"
+        },
+        {
+          "id": "background-2",
+          "label": "Scripted congestion packet B",
+          "trafficClass": "bulk",
+          "linkId": "lower-b"
+        }
+      ],
+      "bottleneckLinkId": "lower-b",
+      "hazardTraces": [
+        {
+          "id": "trace-drop-first",
+          "linkEffects": [
+            {
+              "linkId": "lower-b",
+              "additionalDelayMs": 20,
+              "drop": true,
+              "explanation": "Scripted queue overflow at the shared link."
+            }
+          ]
+        },
+        {
+          "id": "trace-delivery-next",
+          "linkEffects": [
+            {
+              "linkId": "lower-b",
+              "additionalDelayMs": 5,
+              "drop": false,
+              "explanation": "The next scripted attempt is delivered."
+            }
+          ]
+        }
+      ],
+      "hints": [
+        {
+          "method": "Add the risk points along each available route. The shielding action subtracts four points from the selected route, but the result is still a modeled score.",
+          "solution": "The lower route has the lowest risk after shielding. A first-trace drop is an environmental event; retry and the next authored trace delivers."
+        }
+      ],
+      "completion": {
+        "required": "Choose the lowest-risk strategy and successfully deliver the packet."
+      },
+      "checkpoints": [
+        {
+          "id": "baseline",
+          "title": "Manage delivery risk",
+          "briefing": "Risk points are a game model, not probabilities. Choose the lowest-risk route, optionally apply the four-point shielding action, then deliver. A scripted loss does not make a correct risk choice wrong; retry uses the next deterministic trace with no penalty.",
+          "challenge": {},
+          "linkOverrides": [],
+          "hints": [
+            {
+              "method": "Add the risk points along each available route. The shielding action subtracts four points from the selected route, but the result is still a modeled score.",
+              "solution": "The lower route has the lowest risk after shielding. A first-trace drop is an environmental event; retry and the next authored trace delivers."
+            }
+          ]
+        },
+        {
+          "id": "risk-shift",
+          "title": "Risk moves to another corridor",
+          "briefing": "Recalculate the new risk scores. Shielding now removes two points. The route that was safest before need not be safest here.",
+          "challenge": {
+            "riskReductionPoints": 2
+          },
+          "linkOverrides": [
+            {
+              "id": "upper-a",
+              "riskPoints": 1
+            },
+            {
+              "id": "upper-b",
+              "riskPoints": 1
+            },
+            {
+              "id": "upper-c",
+              "riskPoints": 1
+            }
+          ],
+          "hints": [
+            {
+              "method": "Sum each route's current risk and subtract the current shielding value.",
+              "solution": "Upper totals 3 risk points, or 1 with shielding; lower totals 6, or 4 shielded. Choose upper with shielding."
+            }
+          ]
+        },
+        {
+          "id": "final-delivery",
+          "title": "The final delivery window",
+          "briefing": "The final segment has new risks and one-point shielding. After choosing, deliver through the exit; a scripted loss still permits a no-penalty retry.",
+          "challenge": {
+            "riskReductionPoints": 1
+          },
+          "linkOverrides": [
+            {
+              "id": "direct-a",
+              "riskPoints": 8
+            },
+            {
+              "id": "direct-b",
+              "riskPoints": 8
+            },
+            {
+              "id": "upper-a",
+              "riskPoints": 5
+            },
+            {
+              "id": "upper-b",
+              "riskPoints": 5
+            },
+            {
+              "id": "upper-c",
+              "riskPoints": 5
+            },
+            {
+              "id": "lower-a",
+              "riskPoints": 1
+            },
+            {
+              "id": "lower-b",
+              "riskPoints": 1
+            },
+            {
+              "id": "lower-c",
+              "riskPoints": 1
+            }
+          ],
+          "hints": [
+            {
+              "method": "Use these final-segment risk values, not earlier checkpoints' scores.",
+              "solution": "Lower totals 3 risk points, or 2 with shielding. Choose lower with shielding, then retry if the first authored delivery trace drops."
+            }
+          ]
+        }
+      ],
+      "ghostQuestions": [
+        {
+          "id": "shield-score",
+          "prompt": "Route A has 8 modeled risk points; route B has 4. A shield subtracts 1 point from either route. Which shielded route has lower risk?",
+          "choices": [
+            {
+              "id": "a",
+              "label": "Route A with shielding"
+            },
+            {
+              "id": "b",
+              "label": "Route B with shielding"
+            }
+          ],
+          "answerId": "b",
+          "explanation": "The shielded scores are 7 and 3. B remains lower risk; this score does not guarantee delivery."
+        },
+        {
+          "id": "drop-versus-choice",
+          "prompt": "You chose the lowest-risk strategy, but one scripted delivery attempt dropped. Was the original strategy necessarily wrong?",
+          "choices": [
+            {
+              "id": "wrong",
+              "label": "Yes, any drop proves the choice was wrong"
+            },
+            {
+              "id": "retry",
+              "label": "No, keep the correct strategy and retry delivery"
+            }
+          ],
+          "answerId": "retry",
+          "explanation": "A single delivery event is separate from strategy grading. A correct risk choice is retained through the no-penalty retry."
+        },
+        {
+          "id": "risk-units",
+          "prompt": "A route has 6 risk points in this game. What does that mean?",
+          "choices": [
+            {
+              "id": "probability",
+              "label": "Exactly a 6 percent chance of packet loss"
+            },
+            {
+              "id": "model",
+              "label": "An authored comparison score, not a probability"
+            }
+          ],
+          "answerId": "model",
+          "explanation": "Risk points compare the game's authored strategies. They are not measured loss probabilities."
+        }
+      ]
+    }
+  ],
+  "maze": {
+    "rows": 19,
+    "columns": 19,
+    "start": [
+      3,
+      1
+    ],
+    "destination": [
+      17,
+      17
+    ],
+    "approach": [
+      [
+        3,
+        1
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        3
+      ]
+    ],
+    "detours": [
+      [
+        3,
+        1
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        5,
+        1
+      ]
+    ],
+    "sections": [
+      {
+        "gate": [
+          3,
+          3
+        ],
+        "exit": [
+          3,
+          15
+        ],
+        "paths": {
+          "direct": [
+            [
+              3,
+              3
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              3,
+              8
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              3,
+              10
+            ],
+            [
+              3,
+              11
+            ],
+            [
+              3,
+              12
+            ],
+            [
+              3,
+              13
+            ],
+            [
+              3,
+              14
+            ],
+            [
+              3,
+              15
+            ]
+          ],
+          "upper": [
+            [
+              3,
+              3
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              1,
+              9
+            ],
+            [
+              1,
+              10
+            ],
+            [
+              1,
+              11
+            ],
+            [
+              1,
+              12
+            ],
+            [
+              1,
+              13
+            ],
+            [
+              1,
+              14
+            ],
+            [
+              1,
+              15
+            ],
+            [
+              2,
+              15
+            ],
+            [
+              3,
+              15
+            ]
+          ],
+          "lower": [
+            [
+              3,
+              3
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              5,
+              3
+            ],
+            [
+              5,
+              4
+            ],
+            [
+              5,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              5,
+              8
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              5,
+              11
+            ],
+            [
+              5,
+              12
+            ],
+            [
+              5,
+              13
+            ],
+            [
+              5,
+              14
+            ],
+            [
+              5,
+              15
+            ],
+            [
+              4,
+              15
+            ],
+            [
+              3,
+              15
+            ]
+          ]
+        },
+        "connector": [
+          [
+            3,
+            15
+          ],
+          [
+            3,
+            16
+          ],
+          [
+            3,
+            17
+          ],
+          [
+            4,
+            17
+          ],
+          [
+            5,
+            17
+          ],
+          [
+            6,
+            17
+          ],
+          [
+            7,
+            17
+          ],
+          [
+            8,
+            17
+          ],
+          [
+            9,
+            17
+          ],
+          [
+            9,
+            16
+          ],
+          [
+            9,
+            15
+          ]
+        ],
+        "detours": [
+          [
+            3,
+            17
+          ],
+          [
+            2,
+            17
+          ],
+          [
+            1,
+            17
+          ]
+        ]
+      },
+      {
+        "gate": [
+          9,
+          15
+        ],
+        "exit": [
+          9,
+          3
+        ],
+        "paths": {
+          "direct": [
+            [
+              9,
+              15
+            ],
+            [
+              9,
+              14
+            ],
+            [
+              9,
+              13
+            ],
+            [
+              9,
+              12
+            ],
+            [
+              9,
+              11
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              9,
+              9
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              9,
+              7
+            ],
+            [
+              9,
+              6
+            ],
+            [
+              9,
+              5
+            ],
+            [
+              9,
+              4
+            ],
+            [
+              9,
+              3
+            ]
+          ],
+          "upper": [
+            [
+              9,
+              15
+            ],
+            [
+              8,
+              15
+            ],
+            [
+              7,
+              15
+            ],
+            [
+              7,
+              14
+            ],
+            [
+              7,
+              13
+            ],
+            [
+              7,
+              12
+            ],
+            [
+              7,
+              11
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              7,
+              6
+            ],
+            [
+              7,
+              5
+            ],
+            [
+              7,
+              4
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              9,
+              3
+            ]
+          ],
+          "lower": [
+            [
+              9,
+              15
+            ],
+            [
+              10,
+              15
+            ],
+            [
+              11,
+              15
+            ],
+            [
+              11,
+              14
+            ],
+            [
+              11,
+              13
+            ],
+            [
+              11,
+              12
+            ],
+            [
+              11,
+              11
+            ],
+            [
+              11,
+              10
+            ],
+            [
+              11,
+              9
+            ],
+            [
+              11,
+              8
+            ],
+            [
+              11,
+              7
+            ],
+            [
+              11,
+              6
+            ],
+            [
+              11,
+              5
+            ],
+            [
+              11,
+              4
+            ],
+            [
+              11,
+              3
+            ],
+            [
+              10,
+              3
+            ],
+            [
+              9,
+              3
+            ]
+          ]
+        },
+        "connector": [
+          [
+            9,
+            3
+          ],
+          [
+            9,
+            2
+          ],
+          [
+            9,
+            1
+          ],
+          [
+            10,
+            1
+          ],
+          [
+            11,
+            1
+          ],
+          [
+            12,
+            1
+          ],
+          [
+            13,
+            1
+          ],
+          [
+            14,
+            1
+          ],
+          [
+            15,
+            1
+          ],
+          [
+            15,
+            2
+          ],
+          [
+            15,
+            3
+          ]
+        ],
+        "detours": [
+          [
+            9,
+            1
+          ],
+          [
+            8,
+            1
+          ],
+          [
+            7,
+            1
+          ]
+        ]
+      },
+      {
+        "gate": [
+          15,
+          3
+        ],
+        "exit": [
+          15,
+          15
+        ],
+        "paths": {
+          "direct": [
+            [
+              15,
+              3
+            ],
+            [
+              15,
+              4
+            ],
+            [
+              15,
+              5
+            ],
+            [
+              15,
+              6
+            ],
+            [
+              15,
+              7
+            ],
+            [
+              15,
+              8
+            ],
+            [
+              15,
+              9
+            ],
+            [
+              15,
+              10
+            ],
+            [
+              15,
+              11
+            ],
+            [
+              15,
+              12
+            ],
+            [
+              15,
+              13
+            ],
+            [
+              15,
+              14
+            ],
+            [
+              15,
+              15
+            ]
+          ],
+          "upper": [
+            [
+              15,
+              3
+            ],
+            [
+              14,
+              3
+            ],
+            [
+              13,
+              3
+            ],
+            [
+              13,
+              4
+            ],
+            [
+              13,
+              5
+            ],
+            [
+              13,
+              6
+            ],
+            [
+              13,
+              7
+            ],
+            [
+              13,
+              8
+            ],
+            [
+              13,
+              9
+            ],
+            [
+              13,
+              10
+            ],
+            [
+              13,
+              11
+            ],
+            [
+              13,
+              12
+            ],
+            [
+              13,
+              13
+            ],
+            [
+              13,
+              14
+            ],
+            [
+              13,
+              15
+            ],
+            [
+              14,
+              15
+            ],
+            [
+              15,
+              15
+            ]
+          ],
+          "lower": [
+            [
+              15,
+              3
+            ],
+            [
+              16,
+              3
+            ],
+            [
+              17,
+              3
+            ],
+            [
+              17,
+              4
+            ],
+            [
+              17,
+              5
+            ],
+            [
+              17,
+              6
+            ],
+            [
+              17,
+              7
+            ],
+            [
+              17,
+              8
+            ],
+            [
+              17,
+              9
+            ],
+            [
+              17,
+              10
+            ],
+            [
+              17,
+              11
+            ],
+            [
+              17,
+              12
+            ],
+            [
+              17,
+              13
+            ],
+            [
+              17,
+              14
+            ],
+            [
+              17,
+              15
+            ],
+            [
+              16,
+              15
+            ],
+            [
+              15,
+              15
+            ]
+          ]
+        },
+        "connector": [
+          [
+            15,
+            15
+          ],
+          [
+            15,
+            16
+          ],
+          [
+            15,
+            17
+          ],
+          [
+            16,
+            17
+          ],
+          [
+            17,
+            17
+          ]
+        ],
+        "detours": [
+          [
+            15,
+            17
+          ],
+          [
+            14,
+            17
+          ],
+          [
+            13,
+            17
+          ]
+        ]
+      }
+    ],
+    "ghosts": [
+      {
+        "id": "echo",
+        "name": "Echo",
+        "tone": "violet",
+        "spawn": [
+          1,
+          9
+        ],
+        "patrol": [
+          [
+            1,
+            3
+          ],
+          [
+            1,
+            15
+          ],
+          [
+            5,
+            15
+          ],
+          [
+            5,
+            3
+          ]
+        ]
+      },
+      {
+        "id": "jitter",
+        "name": "Jitter",
+        "tone": "coral",
+        "spawn": [
+          9,
+          9
+        ],
+        "patrol": [
+          [
+            11,
+            15
+          ],
+          [
+            11,
+            3
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            7,
+            15
+          ]
+        ]
+      },
+      {
+        "id": "loop",
+        "name": "Loop",
+        "tone": "mint",
+        "spawn": [
+          17,
+          9
+        ],
+        "patrol": [
+          [
+            17,
+            3
+          ],
+          [
+            17,
+            15
+          ],
+          [
+            13,
+            15
+          ],
+          [
+            13,
+            3
+          ]
+        ]
+      }
+    ]
+  }
+}

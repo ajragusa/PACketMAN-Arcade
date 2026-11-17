@@ -1,0 +1,8 @@
+{
+  "name": "packetman-networking-maze",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/node.test.js"
+  }
+}
