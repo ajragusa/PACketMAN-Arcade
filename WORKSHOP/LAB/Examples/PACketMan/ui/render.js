@@ -130,12 +130,14 @@ function board(state) {
   const rows = [];
   for (let row = 0; row < maze.rows; row += 1) {
     let cellsHtml = "";
+    let rowHasCells = false;
     for (let column = 0; column < maze.columns; column += 1) {
       const key = `${row},${column}`;
       if (!cells.has(key)) {
         cellsHtml += `<span class="maze-wall" aria-hidden="true"></span>`;
         continue;
       }
+      rowHasCells = true;
       const current = state.position[0] === row && state.position[1] === column;
       const destination = maze.destination[0] === row && maze.destination[1] === column;
       const next = open.has(key) && Math.abs(state.position[0] - row) + Math.abs(state.position[1] - column) === 1;
@@ -157,7 +159,7 @@ function board(state) {
         ${ghosts.map(ghostSprite).join("")}
       </button>`;
     }
-    rows.push(`<div class="maze-row" role="row">${cellsHtml}</div>`);
+    rows.push(`<div class="maze-row" ${rowHasCells ? 'role="row"' : 'aria-hidden="true"'}>${cellsHtml}</div>`);
   }
   return `<div class="maze-board" role="grid" aria-label="Network maze grid" data-protected="${state.ghostGraceTicks > 0}" data-frozen="${state.view !== "playing-grid"}" style="--columns:${maze.columns}">${rows.join("")}</div>`;
 }
